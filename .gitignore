@@ -1,0 +1,27 @@
+# Dependencias
+node_modules/
+
+# Archivos de compilación
+/dist
+/build
+
+# Archivos de configuración
+.env
+.babelrc
+
+# Archivos de registro
+logs
+*.log
+
+# macOS
+.DS_Store
+
+# Editor/IDE
+.idea
+.vscode
+
+# Archivos temporales
+*.tmp
+
+# Archivos de respaldo
+*.bak
