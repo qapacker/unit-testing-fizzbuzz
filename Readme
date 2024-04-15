@@ -1,0 +1,80 @@
+# FizzBuzz - Ejemplo de Unit Testing en JavaScript
+
+Este proyecto proporciona un ejemplo práctico para aprender pruebas unitarias en JavaScript utilizando Jest, utilizando el popular problema de FizzBuzz como caso de estudio.
+
+## Objetivo del proyecto
+
+El objetivo principal de este proyecto es ofrecer una introducción práctica y hands-on a las pruebas unitarias en JavaScript. Al abordar el simple pero clásico problema de FizzBuzz, los desarrolladores pueden aprender cómo estructurar y ejecutar pruebas unitarias, comprendiendo su importancia en el proceso de desarrollo de software.
+
+## Estructura del proyecto
+
+La estructura del proyecto sigue las convenciones comunes de organización de proyectos JavaScript:
+
+- `src/`: Contiene el código fuente del proyecto.
+  - `fizzbuzz.js`: Implementación de la función FizzBuzz.
+
+- `tests/`: Contiene las pruebas unitarias del proyecto.
+  - `fizzbuzz.test.js`: Pruebas unitarias para la función FizzBuzz.
+
+- `package.json`: Archivo de configuración de npm que incluye las dependencias y los scripts para ejecutar las pruebas.
+
+- `README.md`: Documentación que proporciona una descripción del proyecto y las instrucciones para su uso.
+
+## Configuración y ejecución
+
+Para utilizar este proyecto, sigue estos pasos:
+
+1. **Clonar el repositorio**: Clona este repositorio en tu máquina local.
+
+    ```bash
+    git clone https://github.com/qapacker/FizzBuzz-unit-Testing.git
+    cd FizzBuzz-unit-Testing
+    ```
+
+2. **Instalar dependencias**: Instala las dependencias necesarias utilizando npm.
+
+    ```bash
+    npm install
+    ```
+
+3. **Instalar dependencias de desarrollo**: Instala las siguientes dependencias de desarrollo ejecutando este comando en tu terminal:
+
+    ```bash
+    npm install --save-dev jest @babel/core @babel/preset-env babel-jest
+    ```
+
+4. **Configuración de Babel**: Crea un archivo de configuración de Babel llamado `.babelrc` en la raíz de tu proyecto. Asegúrate de que contenga lo siguiente:
+
+    ```json
+    {
+      "presets": ["@babel/preset-env"]
+    }
+    ```
+
+5. **Configuración de Jest**: Agrega la siguiente configuración en tu archivo `package.json` para que Jest utilice Babel como transformador:
+
+    ```json
+    {
+      "jest": {
+        "transform": {
+          "^.+\\.js$": "babel-jest"
+        }
+      }
+    }
+    ```
+
+6. **Ejecutar las pruebas unitarias**: Ejecuta las pruebas unitarias con el siguiente comando:
+
+    ```bash
+    npm test
+    ```
+
+    Esto ejecutará Jest y mostrará el resultado de las pruebas en la consola.
+
+## Contribuciones
+
+¡Las contribuciones son bienvenidas! Si tienes ideas para mejorar este proyecto, por favor envía un pull request. Cualquier mejora o corrección de errores es apreciada.
+
+## Licencia
+
+Este proyecto está bajo la licencia [MIT](LICENSE).
