@@ -1,7 +1,7 @@
 # FizzBuzz - Ejemplo de Unit Testing en JavaScript
 
-Este proyecto proporciona un ejemplo práctico para aprender pruebas unitarias en JavaScript utilizando Jest, utilizando el popular problema de FizzBuzz como caso de estudio.
-
+Este proyecto proporciona un ejemplo práctico para aprender pruebas unitarias en JavaScript utilizando Jest. Se utiliza el popular problema de FizzBuzz como caso de estudio. El problema de FizzBuzz implica imprimir una lista de números del 1 al 100, pero con ciertas condiciones: para los múltiplos de 3, 
+se imprime "Fizz"; para los múltiplos de 5, se imprime "Buzz"; y para los múltiplos de ambos 3 y 5, se imprime "FizzBuzz".
 ## Objetivo del proyecto
 
 El objetivo principal de este proyecto es ofrecer una introducción práctica y hands-on a las pruebas unitarias en JavaScript. Al abordar el simple pero clásico problema de FizzBuzz, los desarrolladores pueden aprender cómo estructurar y ejecutar pruebas unitarias, comprendiendo su importancia en el proceso de desarrollo de software.
