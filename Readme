@@ -1,80 +1,57 @@
-# FizzBuzz - Ejemplo de Unit Testing en JavaScript
+FizzBuzz - Unit Testing Example in JavaScript
+🚀 This project provides a practical example for learning unit testing in JavaScript using Jest. The popular FizzBuzz problem is used as a case study. The FizzBuzz problem involves printing a list of numbers from 1 to 100, but with certain conditions: for multiples of 3, "Fizz" is printed; for multiples of 5, "Buzz" is printed; and for multiples of both 3 and 5, "FizzBuzz" is printed.
 
-Este proyecto proporciona un ejemplo práctico para aprender pruebas unitarias en JavaScript utilizando Jest. Se utiliza el popular problema de FizzBuzz como caso de estudio. El problema de FizzBuzz implica imprimir una lista de números del 1 al 100, pero con ciertas condiciones: para los múltiplos de 3, 
-se imprime "Fizz"; para los múltiplos de 5, se imprime "Buzz"; y para los múltiplos de ambos 3 y 5, se imprime "FizzBuzz".
-## Objetivo del proyecto
+Project Objective
+🎯 The main goal of this project is to offer a practical, hands-on introduction to unit testing in JavaScript. By addressing the simple yet classic FizzBuzz problem, developers can learn how to structure and execute unit tests, understanding their importance in the software development process.
 
-El objetivo principal de este proyecto es ofrecer una introducción práctica y hands-on a las pruebas unitarias en JavaScript. Al abordar el simple pero clásico problema de FizzBuzz, los desarrolladores pueden aprender cómo estructurar y ejecutar pruebas unitarias, comprendiendo su importancia en el proceso de desarrollo de software.
+Project Structure
+📂 The project structure follows common conventions for organizing JavaScript projects:
 
-## Estructura del proyecto
+-src/: Contains the project's source code.
+-fizzbuzz.js: Implementation of the FizzBuzz function.
+-tests/: Contains the project's unit tests.
+-fizzbuzz.test.js: Unit tests for the FizzBuzz function.
+-package.json: npm configuration file that includes dependencies and scripts for running tests.
+-README.md: Documentation providing a project description and instructions for use.
+-Setup and Execution
 
-La estructura del proyecto sigue las convenciones comunes de organización de proyectos JavaScript:
+🛠 To use this project, follow these steps:
 
-- `src/`: Contiene el código fuente del proyecto.
-  - `fizzbuzz.js`: Implementación de la función FizzBuzz.
+-Clone the repository: Clone this repository to your local machine.
 
-- `tests/`: Contiene las pruebas unitarias del proyecto.
-  - `fizzbuzz.test.js`: Pruebas unitarias para la función FizzBuzz.
+-Copy code
+git clone https://github.com/qapacker/FizzBuzz-unit-Testing.git
+-cd FizzBuzz-unit-Testing
 
-- `package.json`: Archivo de configuración de npm que incluye las dependencias y los scripts para ejecutar las pruebas.
+## Install dependencies: Install the necessary dependencies using npm.
+-npm install
 
-- `README.md`: Documentación que proporciona una descripción del proyecto y las instrucciones para su uso.
+## Install development dependencies: Install the following development dependencies by running this command in your terminal:
 
-## Configuración y ejecución
+-npm install --save-dev jest @babel/core @babel/preset-env babel-jest
 
-Para utilizar este proyecto, sigue estos pasos:
+## Babel Configuration: Create a Babel configuration file named .babelrc in the root of your project. Make sure it contains the following:
 
-1. **Clonar el repositorio**: Clona este repositorio en tu máquina local.
+{
+  "presets": ["@babel/preset-env"]
+}
 
-    ```bash
-    git clone https://github.com/qapacker/FizzBuzz-unit-Testing.git
-    cd FizzBuzz-unit-Testing
-    ```
-
-2. **Instalar dependencias**: Instala las dependencias necesarias utilizando npm.
-
-    ```bash
-    npm install
-    ```
-
-3. **Instalar dependencias de desarrollo**: Instala las siguientes dependencias de desarrollo ejecutando este comando en tu terminal:
-
-    ```bash
-    npm install --save-dev jest @babel/core @babel/preset-env babel-jest
-    ```
-
-4. **Configuración de Babel**: Crea un archivo de configuración de Babel llamado `.babelrc` en la raíz de tu proyecto. Asegúrate de que contenga lo siguiente:
-
-    ```json
-    {
-      "presets": ["@babel/preset-env"]
+## Jest Configuration: Add the following configuration in your package.json file to make Jest use Babel as a transformer:
+{
+  "jest": {
+    "transform": {
+      "^.+\\.js$": "babel-jest"
     }
-    ```
+  }
+}
 
-5. **Configuración de Jest**: Agrega la siguiente configuración en tu archivo `package.json` para que Jest utilice Babel como transformador:
+## Run the unit tests: Execute the unit tests with the following command:
+-npm test
 
-    ```json
-    {
-      "jest": {
-        "transform": {
-          "^.+\\.js$": "babel-jest"
-        }
-      }
-    }
-    ```
+This will run Jest and display the test results in the console.
 
-6. **Ejecutar las pruebas unitarias**: Ejecuta las pruebas unitarias con el siguiente comando:
+Contributions
+🙌 Contributions are welcome! If you have ideas to improve this project, please submit a pull request. Any enhancements or bug fixes are appreciated.
 
-    ```bash
-    npm test
-    ```
-
-    Esto ejecutará Jest y mostrará el resultado de las pruebas en la consola.
-
-## Contribuciones
-
-¡Las contribuciones son bienvenidas! Si tienes ideas para mejorar este proyecto, por favor envía un pull request. Cualquier mejora o corrección de errores es apreciada.
-
-## Licencia
-
-Este proyecto está bajo la licencia [MIT](LICENSE).
+License
+📝 This project is licensed under the MIT License.
