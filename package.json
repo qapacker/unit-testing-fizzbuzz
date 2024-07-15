@@ -22,6 +22,10 @@
   "jest": {
     "transform": {
       "^.+\\.js$": "babel-jest"
-    }
+    },
+    "modulePaths": [
+      "<rootDir>"
+    ]
   }
 }
+

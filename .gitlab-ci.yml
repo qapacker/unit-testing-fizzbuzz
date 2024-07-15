@@ -18,6 +18,5 @@ test_job:
     - npm install jest @babel/core @babel/preset-env babel-jest --save-dev  # Instalar Jest y Babel como dependencias de desarrollo
   script:
     - npm test  # Ejecutar los tests con Jest utilizando el script definido en package.json
-  except:
-    - master  # Opcional: Ejecutar este job solo en ramas que no sean `master`
+  
 
