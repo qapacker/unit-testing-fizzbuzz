@@ -1,13 +1,18 @@
 stages:
   - test
 
+variables:
+  NODE_ENV: "test"
+
 test_job:
   stage: test
   image: node:14
   before_script:
-    - npm install
-    - npm install jest 
-    - npm install @babel/core @babel/preset-env @babel/cli jest babel-jest --save-dev
-
+    - npm ci
   script:
     - npm run test
+  artifacts:
+    paths:
+      - coverage/
+  except:
+    - master
