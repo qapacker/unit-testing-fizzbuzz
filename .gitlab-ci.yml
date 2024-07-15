@@ -12,6 +12,6 @@ test_job:
     - npm install 
     - npm install jest @babel/core @babel/preset-env babel-jest --save-dev  # Instalar Jest y Babel como dependencias de desarrollo
   script:
-    - jest tests/FizzBuzz.test.js  # Ejecutar los tests específicos de FizzBuzz
+    - npm run test  # Ejecutar los tests específicos de FizzBuzz
   except:
     - master  # Opcional: Ejecutar este job solo en ramas que no sean `master`
