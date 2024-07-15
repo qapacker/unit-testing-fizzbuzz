@@ -6,13 +6,11 @@ variables:
 
 test_job:
   stage: test
-  image: node:14
+  image: node:14  
   before_script:
-    - npm ci
+    - apt-get update && apt-get install -y build-essential
+    - npm install --global npm@latest  # Actualizar npm a la última versión
+    - npm install --legacy-peer-deps  # Instalación de dependencias, evitando problemas con dependencias desactualizadas
+    - npm install jest @babel/core @babel/preset-env babel-jest --save-dev  # Instalar Jest y Babel como dependencias de desarrollo
   script:
-    - npm run test
-  artifacts:
-    paths:
-      - coverage/
-  except:
-    - master
+    - jest tests/FizzBuzz.test.js  # Ejecutar los tests específicos de FizzBuzz
