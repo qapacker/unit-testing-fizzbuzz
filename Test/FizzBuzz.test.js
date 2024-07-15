@@ -1,4 +1,4 @@
-import fizzBuzz from '../src/FizzBuzz';
+import fizzBuzz from 'src/FIzzBuzz.js';
 
 describe('FizzBuzz function', () => {
   test('returns "Fizz" when the number is divisible by 3', () => {
