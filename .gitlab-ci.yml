@@ -1,17 +1,23 @@
+# Archivo .gitlab-ci.yml
+
+# Definición de los stages disponibles
 stages:
   - test
 
+# Variables de entorno para el entorno de pruebas
 variables:
   NODE_ENV: "test"
 
+# Definición del job para ejecutar las pruebas
 test_job:
   stage: test
   image: node:14  # Utilizar la misma versión de Node.js que especificaste en devDependencies
   before_script:
     - apt-get update && apt-get install -y build-essential
-    - npm install 
+    - npm install  # Instalar todas las dependencias del proyecto
     - npm install jest @babel/core @babel/preset-env babel-jest --save-dev  # Instalar Jest y Babel como dependencias de desarrollo
   script:
-    - npm run test  # Ejecutar los tests específicos de FizzBuzz
+    - npm test  # Ejecutar los tests con Jest utilizando el script definido en package.json
   except:
     - master  # Opcional: Ejecutar este job solo en ramas que no sean `master`
+
