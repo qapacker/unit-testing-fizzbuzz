@@ -6,11 +6,14 @@ variables:
 
 test_job:
   stage: test
-  image: node:14  
+  image: node:14  # Utilizar la misma versión de Node.js que especificaste en devDependencies
   before_script:
     - apt-get update && apt-get install -y build-essential
-    - npm install --global npm@latest  # Actualizar npm a la última versión
-    - npm install --legacy-peer-deps  # Instalación de dependencias, evitando problemas con dependencias desactualizadas
+    - npm install --global npm@latest  # Actualizar npm a la última versión compatible
+    - node --version  # Verifica la versión de Node.js
+    - npm --version   # Verifica la versión de npm
     - npm install jest @babel/core @babel/preset-env babel-jest --save-dev  # Instalar Jest y Babel como dependencias de desarrollo
   script:
     - jest tests/FizzBuzz.test.js  # Ejecutar los tests específicos de FizzBuzz
+  except:
+    - master  # Opcional: Ejecutar este job solo en ramas que no sean `master`
