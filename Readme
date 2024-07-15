@@ -50,6 +50,8 @@ Para utilizar este proyecto, sigue estos pasos:
       "presets": ["@babel/preset-env"]
     }
     ```
+ - Al utilizar Babel como transformador, podemos escribir nuestro código utilizando la sintaxis de módulos ESM, lo que nos brinda beneficios como una mejor estructura de código y la posibilidad de utilizar características avanzadas de JavaScript. Luego, Babel se encarga de convertir este código a un formato compatible con CommonJS, que es el formato de módulos utilizado por Node.js.
+
 
 5. **Configuración de Jest**: Agrega la siguiente configuración en tu archivo `package.json` para que Jest utilice Babel como transformador:
 
