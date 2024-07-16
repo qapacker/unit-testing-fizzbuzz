@@ -1,13 +1,12 @@
 # Definición de los stages disponibles
 stages:
   - test
-  - coverage
 
 # Variables de entorno para el entorno de pruebas
 variables:
   NODE_ENV: "test"
 
-# Definición del job para ejecutar las pruebas
+# Definición del job para ejecutar las pruebas y almacenar cobertura
 test_job:
   stage: test
   image: node:14  # Utilizar la misma versión de Node.js que especificaste en devDependencies
@@ -15,14 +14,10 @@ test_job:
     - apt-get update && apt-get install -y build-essential
     - npm install  # Instalar todas las dependencias del proyecto
   script:
-    - npm run test  # Ejecutar los tests con Jest utilizando el script definido en package.json
-
-# Definición del job para generar y almacenar cobertura
-coverage_job:
-  stage: coverage
-  script:
+    - npm install jest @babel/core @babel/preset-env babel-jest --save-dev  # Instalar Jest y Babel como dependencias de desarrollo
     - npm run test:coverage  # Ejecutar los tests con cobertura
   artifacts:
     paths:
       - coverage/  # Guardar el directorio de cobertura como un artifact
     expire_in: 1 week  # Mantener los artifacts por una semana
+
