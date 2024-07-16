@@ -16,11 +16,10 @@ test_job:
     - npm install  # Instalar todas las dependencias del proyecto
   script:
     - npm run test  # Ejecutar los tests con Jest utilizando el script definido en package.json
-    
+
 # Definición del job para generar y almacenar cobertura
 coverage_job:
   stage: coverage
-  image: node:14  # Utilizar la misma versión de Node.js que especificaste en devDependencies
   script:
     - npm run test:coverage  # Ejecutar los tests con cobertura
   artifacts:
