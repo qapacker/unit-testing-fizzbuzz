@@ -1,14 +1,10 @@
-version: '3.8'
 
 services:
   app:
     build:
-      context: .  # Directorio donde está tu Dockerfile
-      dockerfile: Dockerfile  # Nombre del Dockerfile
-    image: fizzbuzz:latest
-    ports:
-      - "3000:3000"  # Mapea el puerto 3000 del contenedor al puerto 3000 del host
-    environment:
-      NODE_ENV: "production"  # Puedes ajustar las variables de entorno aquí
+      context: .
+      dockerfile: Dockerfile
     volumes:
-      - .:/usr/src/app  # Mapea el directorio actual al directorio de trabajo del contenedor
+      - .:/usr/src/app  # Sincroniza el código local con el contenedor
+      - /usr/src/app/node_modules  # Evita conflictos con node_modules local
+    command: npm run test:coverage  # Cambia el comando según tus necesidades

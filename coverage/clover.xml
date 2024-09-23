@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1721116657291" clover="3.2.0">
-  <project timestamp="1721116657291" name="All files">
+<coverage generated="1727100669579" clover="3.2.0">
+  <project timestamp="1727100669580" name="All files">
     <metrics statements="8" coveredstatements="8" conditionals="8" coveredconditionals="8" methods="1" coveredmethods="1" elements="17" coveredelements="17" complexity="0" loc="8" ncloc="8" packages="1" files="1" classes="1"/>
-    <file name="FIzzBuzz.js" path="C:\Users\MateoGilMartinez\Desktop\Qadevops\qapacker\FizzBuzz-unit-Testing\src\FIzzBuzz.js">
+    <file name="FIzzBuzz.js" path="C:\Users\MateoGilMartinez\Desktop\Qadevops\unit-testing-fizzbuzz\src\FIzzBuzz.js">
       <metrics statements="8" coveredstatements="8" conditionals="8" coveredconditionals="8" methods="1" coveredmethods="1"/>
       <line num="2" count="10" type="cond" truecount="4" falsecount="0"/>
       <line num="3" count="2" type="stmt"/>

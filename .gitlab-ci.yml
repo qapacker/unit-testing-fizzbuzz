@@ -13,7 +13,7 @@ test_job:
   image: node:14
   before_script:
     - apt-get update && apt-get install -y build-essential
-    - npm install
+    - npm ci  # Instala las dependencias
   script:
     - npm install jest @babel/core @babel/preset-env babel-jest --save-dev
     - npm run test:coverage
@@ -27,6 +27,7 @@ deploy_job:
   stage: deploy
   image: docker:latest  # Usa la imagen de Docker
   before_script:
+    - eval $(ssh-agent -s)  # Inicia el agente SSH
     - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -  # Añade la clave privada
     - mkdir -p ~/.ssh
     - ssh-keyscan -H 192.168.114.232 >> ~/.ssh/known_hosts  # Agrega la IP de la VM a known_hosts
