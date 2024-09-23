@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .  # Directorio donde está tu Dockerfile
+      dockerfile: Dockerfile  # Nombre del Dockerfile
+    image: fizzbuzz:latest
+    ports:
+      - "3000:3000"  # Mapea el puerto 3000 del contenedor al puerto 3000 del host
+    environment:
+      NODE_ENV: "production"  # Puedes ajustar las variables de entorno aquí
+    volumes:
+      - .:/usr/src/app  # Mapea el directorio actual al directorio de trabajo del contenedor

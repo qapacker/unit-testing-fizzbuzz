@@ -1,6 +1,7 @@
 # Definición de los stages disponibles
 stages:
   - test
+  - deploy
 
 # Variables de entorno para el entorno de pruebas
 variables:
@@ -9,15 +10,27 @@ variables:
 # Definición del job para ejecutar las pruebas y almacenar cobertura
 test_job:
   stage: test
-  image: node:14  # Utilizar la misma versión de Node.js que especificaste en devDependencies
+  image: node:14
   before_script:
     - apt-get update && apt-get install -y build-essential
-    - npm install  # Instalar todas las dependencias del proyecto
+    - npm install
   script:
-    - npm install jest @babel/core @babel/preset-env babel-jest --save-dev  # Instalar Jest y Babel como dependencias de desarrollo
-    - npm run test:coverage  # Ejecutar los tests con cobertura
+    - npm install jest @babel/core @babel/preset-env babel-jest --save-dev
+    - npm run test:coverage
   artifacts:
     paths:
-      - coverage/  # Guardar el directorio de cobertura como un artifact
-    expire_in: 1 week  # Mantener los artifacts por una semana
+      - coverage/
+    expire_in: 1 week
 
+# Job de despliegue
+deploy_job:
+  stage: deploy
+  image: docker:latest  # Usa la imagen de Docker
+  before_script:
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -  # Añade la clave privada
+    - mkdir -p ~/.ssh
+    - ssh-keyscan -H 192.168.114.232 >> ~/.ssh/known_hosts  # Agrega la IP de la VM a known_hosts
+  script:
+    - ssh ubuntu@192.168.114.232 "mkdir -p /home/ubuntu/unit-testing-fizzbuzz"  # Crea el directorio en la VM
+    - scp -r . ubuntu@192.168.114.232:/home/ubuntu/unit-testing-fizzbuzz  # Copia el proyecto a la VM
+    - ssh ubuntu@192.168.114.232 "cd /home/ubuntu/unit-testing-fizzbuzz && docker-compose up -d --build"  # Levanta la aplicación usando Docker Compose
