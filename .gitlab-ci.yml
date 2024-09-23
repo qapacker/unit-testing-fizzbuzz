@@ -28,11 +28,12 @@ deploy_job:
   image: docker:latest  # Usa la imagen de Docker
   before_script:
     - eval $(ssh-agent -s)  # Inicia el agente SSH
-    - echo "$SSH_PRIVATE_KEY" | base64 -d | ssh-add -  # Usa la clave SSH directamente sin crear un archivo temporal
+    - echo "$SSH_PRIVATE_KEY" | base64 --decode | ssh-add -  # Usa la clave SSH directamente
     - mkdir -p ~/.ssh
     - ssh-keyscan -H 192.168.114.232 >> ~/.ssh/known_hosts  # Agrega el host a `known_hosts`
 
   script:
+    - ssh -v ubuntu@192.168.114.232 "echo 'Conectado!'"  # Verifica la conexión
     - ssh ubuntu@192.168.114.232 "mkdir -p /home/ubuntu/unit-testing-fizzbuzz"  # Crea el directorio en la VM
     - scp -r . ubuntu@192.168.114.232:/home/ubuntu/unit-testing-fizzbuzz  # Copia el proyecto a la VM
     - ssh ubuntu@192.168.114.232 "cd /home/ubuntu/unit-testing-fizzbuzz && docker-compose up -d --build"  # Levanta la aplicación usando Docker Compose
