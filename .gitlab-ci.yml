@@ -26,7 +26,7 @@ variables:
 # Job de despliegue
 deploy_job:
   stage: deploy
-  image: docker:latest  # Usa la imagen de Docker
+  image: ubuntu:latest  # Usa la imagen de Docker
   before_script:
   - eval $(ssh-agent -s)  # Inicia el agente SSH
   - apt-get -yq update 
