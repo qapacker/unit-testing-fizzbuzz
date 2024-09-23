@@ -26,8 +26,8 @@ deploy_job:
   - eval $(ssh-agent -s)  
   - apt-get -yq update 
   - apt-get -yqq install ssh    
-  - chmod 600 -D /dev/null ~/.ssh/id_rsa  
-  - echo "$SSH_PRIVATE_KEY" | base64 --decode > ~/.ssh/id_rsa   
+  - chmod -m 600 -D /dev/null ~/.ssh/id_rsa  
+  - echo "$SSH_PRIVATE_KEY" | base64 -d > ~/.ssh/id_rsa   
   - ssh-keyscan -H $SSH_HOST >> ~/.ssh/known_hosts  
   script:
     - ssh ubuntu@$SSH_HOST "echo 'Conectado!'"  
