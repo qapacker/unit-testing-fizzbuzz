@@ -28,13 +28,14 @@ deploy_job:
   stage: deploy
   image: docker:latest  # Usa la imagen de Docker
   before_script:
-    - eval $(ssh-agent -s)  # Inicia el agente SSH
-    - install ssh  # Instala SSH
-    - mkdir -p ~/.ssh  # Crea el directorio si no existe
-    - chmod 700 ~/.ssh  # Asegura que el directorio tenga los permisos correctos
-    - echo "$SSH_PRIVATE_KEY" | base64 -d > ~/.ssh/id_rsa  # Usa la clave SSH directamente
-    - chmod 600 ~/.ssh/id_rsa  # Asegura que la clave tenga los permisos correctos
-    - ssh-keyscan -H $SSH_HOST >> ~/.ssh/known_hosts  # Agrega el host a `known_hosts`
+  - eval $(ssh-agent -s)  # Inicia el agente SSH
+  - apt-get -yq update 
+  - apt-get -yqq install ssh  # Instala SSH correctamente
+  - mkdir -p ~/.ssh  # Crea el directorio si no existe
+  - chmod 700 ~/.ssh  # Asegura que el directorio tenga los permisos correctos
+  - echo "$SSH_PRIVATE_KEY" | base64 --decode > ~/.ssh/id_rsa  # Usa la clave SSH directamente
+  - chmod 600 ~/.ssh/id_rsa  # Asegura que la clave tenga los permisos correctos
+  - ssh-keyscan -H $SSH_HOST >> ~/.ssh/known_hosts  # Agrega el host a `known_hosts`
 
   script:
     - ssh -v ubuntu@$SSH_HOST "echo 'Conectado!'"  # Verifica la conexión
