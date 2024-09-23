@@ -13,7 +13,7 @@ test_job:
   image: node:14
   before_script:
     - apt-get update && apt-get install -y build-essential
-    - npm ci  # Instala las dependencias
+    - npm install
   script:
     - npm install jest @babel/core @babel/preset-env babel-jest --save-dev
     - npm run test:coverage
