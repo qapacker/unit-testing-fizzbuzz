@@ -26,13 +26,12 @@ test_job:
 deploy_job:
   stage: deploy
   image: docker:latest  # Usa la imagen de Docker
-  before_script:  # Alineación corregida
+  before_script:
     - eval $(ssh-agent -s)  # Inicia el agente SSH
-    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' > /tmp/private_key.pem  # Guarda la clave en un archivo
-    - chmod 600 /tmp/private_key.pem  # Ajusta los permisos del archivo
-    - ssh-add /tmp/private_key.pem  # Añade la clave desde el archivo
+    - echo "$SSH_PRIVATE_KEY" | base64 -d | ssh-add -  # Usa la clave SSH directamente sin crear un archivo temporal
     - mkdir -p ~/.ssh
-    - ssh-keyscan -H 192.168.114.232 >> ~/.ssh/known_hosts  # Agrega la IP de la VM a known_hosts
+    - ssh-keyscan -H 192.168.114.232 >> ~/.ssh/known_hosts  # Agrega el host a `known_hosts`
+
   script:
     - ssh ubuntu@192.168.114.232 "mkdir -p /home/ubuntu/unit-testing-fizzbuzz"  # Crea el directorio en la VM
     - scp -r . ubuntu@192.168.114.232:/home/ubuntu/unit-testing-fizzbuzz  # Copia el proyecto a la VM
