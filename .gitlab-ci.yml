@@ -6,6 +6,7 @@ stages:
 # Variables de entorno para el entorno de pruebas
 variables:
   NODE_ENV: "test"
+  SSH_HOST: "192.168.114.232"  # Agrega la IP como variable de entorno
 
 # Definición del job para ejecutar las pruebas y almacenar cobertura
 # test_job:
@@ -27,15 +28,17 @@ deploy_job:
   stage: deploy
   image: docker:latest  # Usa la imagen de Docker
   before_script:
-    - eval $(ssh-agent -s)
+    - eval $(ssh-agent -s)  # Inicia el agente SSH
     - apt-get -yq update 
-    - apt-get -yqq install ssh # Inicia el agente SSH
-    - install -m 600 -D /dev/null ~/.shh/id_rsa
-    - echo "$SSH_PRIVATE_KEY" | base64 -d > ~/.shh/id_rsa  # Usa la clave SSH directamente
+    - apt-get -yqq install ssh  # Instala SSH
+    - mkdir -p ~/.ssh  # Crea el directorio si no existe
+    - chmod 700 ~/.ssh  # Asegura que el directorio tenga los permisos correctos
+    - echo "$SSH_PRIVATE_KEY" | base64 -d > ~/.ssh/id_rsa  # Usa la clave SSH directamente
+    - chmod 600 ~/.ssh/id_rsa  # Asegura que la clave tenga los permisos correctos
     - ssh-keyscan -H $SSH_HOST >> ~/.ssh/known_hosts  # Agrega el host a `known_hosts`
 
   script:
-    - ssh -v ubuntu@192.168.114.232 "echo 'Conectado!'"  # Verifica la conexión
-    - ssh ubuntu@192.168.114.232 "mkdir -p /home/ubuntu/unit-testing-fizzbuzz"  # Crea el directorio en la VM
-    - scp -r . ubuntu@192.168.114.232:/home/ubuntu/unit-testing-fizzbuzz  # Copia el proyecto a la VM
-    - ssh ubuntu@192.168.114.232 "cd /home/ubuntu/unit-testing-fizzbuzz && docker-compose up -d --build"  # Levanta la aplicación usando Docker Compose
+    - ssh -v ubuntu@$SSH_HOST "echo 'Conectado!'"  # Verifica la conexión
+    - ssh ubuntu@$SSH_HOST "mkdir -p /home/ubuntu/unit-testing-fizzbuzz"  # Crea el directorio en la VM
+    - scp -r . ubuntu@$SSH_HOST:/home/ubuntu/unit-testing-fizzbuzz  # Copia el proyecto a la VM
+    - ssh ubuntu@$SSH_HOST "cd /home/ubuntu/unit-testing-fizzbuzz && docker-compose up -d --build"  # Levanta la aplicación usando Docker Compose
