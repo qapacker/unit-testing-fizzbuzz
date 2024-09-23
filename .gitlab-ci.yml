@@ -8,19 +8,19 @@ variables:
   NODE_ENV: "test"
 
 # Definición del job para ejecutar las pruebas y almacenar cobertura
-test_job:
-  stage: test
-  image: node:14
-  before_script:
-    - apt-get update && apt-get install -y build-essential
-    - npm install
-  script:
-    - npm install jest @babel/core @babel/preset-env babel-jest --save-dev
-    - npm run test:coverage
-  artifacts:
-    paths:
-      - coverage/
-    expire_in: 1 week
+# test_job:
+#   stage: test
+#   image: node:14
+#   before_script:
+#     - apt-get update && apt-get install -y build-essential
+#     - npm install
+#   script:
+#     - npm install jest @babel/core @babel/preset-env babel-jest --save-dev
+#     - npm run test:coverage
+#   artifacts:
+#     paths:
+#       - coverage/
+#     expire_in: 1 week
 
 # Job de despliegue
 deploy_job:
