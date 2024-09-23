@@ -38,7 +38,7 @@ deploy_job:
   - ssh-keyscan -H $SSH_HOST >> ~/.ssh/known_hosts  # Agrega el host a `known_hosts`
 
   script:
-    - ssh -v ubuntu@$SSH_HOST "echo 'Conectado!'"  # Verifica la conexión
+    - ssh ubuntu@$SSH_HOST "echo 'Conectado!'"  # Verifica la conexión
     - ssh ubuntu@$SSH_HOST "mkdir -p /home/ubuntu/unit-testing-fizzbuzz"  # Crea el directorio en la VM
     - scp -r . ubuntu@$SSH_HOST:/home/ubuntu/unit-testing-fizzbuzz  # Copia el proyecto a la VM
     - ssh ubuntu@$SSH_HOST "cd /home/ubuntu/unit-testing-fizzbuzz && docker-compose up -d --build"  # Levanta la aplicación usando Docker Compose
