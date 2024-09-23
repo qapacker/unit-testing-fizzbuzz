@@ -28,7 +28,7 @@ deploy_job:
   image: docker:latest  # Usa la imagen de Docker
   before_script:
     - eval $(ssh-agent -s)  # Inicia el agente SSH
-    - echo "$SSH_PRIVATE_KEY" | base64 --decode | ssh-add -  # Usa la clave SSH directamente
+    - echo "$SSH_PRIVATE_KEY" | ssh-add -  # Usa la clave SSH directamente
     - mkdir -p ~/.ssh
     - ssh-keyscan -H 192.168.114.232 >> ~/.ssh/known_hosts  # Agrega el host a `known_hosts`
 
