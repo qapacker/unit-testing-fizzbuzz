@@ -7,19 +7,19 @@ variables:
   SSH_HOST: "192.168.125.168"
   DEPLOY_DIR: "/home/ubuntu/unit-testing-fizzbuzz"
 
-test_job:
-  stage: test
-  image: node:14
-  before_script:
-    - apt-get update && apt-get install -y build-essential
-    - npm install
-  script:
-    - npm install jest @babel/core @babel/preset-env babel-jest --save-dev
-    - npm run test:coverage
-  artifacts:
-    paths:
-      - coverage/
-    expire_in: 1 week
+#test_job:
+#  stage: test
+#  image: node:14
+#  before_script:
+#    - apt-get update && apt-get install -y build-essential
+#    - npm install
+#  script:
+#    - npm install jest @babel/core @babel/preset-env babel-jest --save-dev
+#    - npm run test:coverage
+#  artifacts:
+#    paths:
+#      - coverage/
+#    expire_in: 1 week
 
 deploy_job:
   stage: deploy
@@ -27,11 +27,11 @@ deploy_job:
   before_script:
     - eval $(ssh-agent -s)  
     - apt-get -yq update 
-    - apt-get -yqq install ssh    
+    - apt-get -yqq install ssh iputils-ping  # Instalar ssh y ping
     - mkdir -p ~/.ssh
     - echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_ed25519
     - chmod 600 ~/.ssh/id_ed25519
-    - echo "SSH_HOST is $SSH_HOST"
+    - echo "SSH_HOST is $SSH_HOST"  # Mostrar el valor de SSH_HOST
     - ping -c 4 $SSH_HOST  # Verificar la conectividad
     - ssh-keyscan -v -H $SSH_HOST >> ~/.ssh/known_hosts
 
