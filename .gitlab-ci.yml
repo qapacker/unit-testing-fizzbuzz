@@ -23,14 +23,16 @@ deploy_job:
   stage: deploy
   image: ubuntu:latest  
   before_script:
-  - eval $(ssh-agent -s)  
-  - apt-get -yq update 
-  - apt-get -yqq install ssh    
-  - install -m 600 -D /dev/null ~/.ssh/id_rsa  
-  - echo "$SSH_PRIVATE_KEY" | base64 -d > ~/.ssh/id_rsa   
-  - ssh-keyscan -H $SSH_HOST >> ~/.ssh/known_hosts  
+    - eval $(ssh-agent -s)  
+    - apt-get -yq update 
+    - apt-get -yqq install ssh    
+    - mkdir -p ~/.ssh
+    - echo "$SSH_PRIVATE_KEY" | base64 -d > ~/.ssh/id_rsa  
+    - chmod 600 ~/.ssh/id_rsa
+    - ssh-keyscan -H $SSH_HOST >> ~/.ssh/known_hosts  
+
   script:
     - ssh ubuntu@$SSH_HOST "echo 'Conectado!'"  
     - ssh ubuntu@$SSH_HOST "mkdir -p $DEPLOY_DIR"  
     - scp -r . ubuntu@$SSH_HOST:$DEPLOY_DIR  
-    - ssh ubuntu@$SSH_HOST "cd $DEPLOY_DIR && docker-compose up -d --build"  
+    - ssh ubuntu@$SSH_HOST "cd $DEPLOY_DIR && docker-compose up -d --build"
