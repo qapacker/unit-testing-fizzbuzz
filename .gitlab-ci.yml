@@ -29,9 +29,11 @@ deploy_job:
     - apt-get -yq update 
     - apt-get -yqq install ssh    
     - mkdir -p ~/.ssh
-    - echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_ed25519  # Usar id_ed25519 en lugar de id_rsa
+    - echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_ed25519
     - chmod 600 ~/.ssh/id_ed25519
-    - ssh-keyscan -H $SSH_HOST >> ~/.ssh/known_hosts  
+    - echo "SSH_HOST is $SSH_HOST"
+    - ping -c 4 $SSH_HOST  # Verificar la conectividad
+    - ssh-keyscan -v -H $SSH_HOST >> ~/.ssh/known_hosts
 
   script:
     - ssh -i ~/.ssh/id_ed25519 ubuntu@$SSH_HOST "echo 'Conectado!'"  
