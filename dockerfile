@@ -9,12 +9,12 @@ COPY package*.json ./
 
 # Actualiza los certificados
 RUN apt-get update && apt-get install -y ca-certificates
+RUN npm install jest @babel/core @babel/preset-env babel-jest --save-dev
 
 # Instala las dependencias
 RUN npm ci
 
 # Copia el resto del código de la aplicación
 COPY . .
-
 # Comando para ejecutar las pruebas
 CMD ["npm", "run", "test:coverage"]
