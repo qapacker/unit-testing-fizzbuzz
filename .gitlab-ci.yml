@@ -7,19 +7,19 @@ variables:
   SSH_HOST: "35.222.13.139"
   DEPLOY_DIR: "/home/ubuntu/unit-testing-fizzbuzz"
 
-#test_job:
-#  stage: test
-#  image: node:14
-#  before_script:
-#    - apt-get update && apt-get install -y build-essential
-#    - npm install
-#  script:
-#    - npm install jest @babel/core @babel/preset-env babel-jest --save-dev
-#    - npm run test:coverage
-#  artifacts:
-#    paths:
-#      - coverage/
-#    expire_in: 1 week
+# test_job:
+#   stage: test
+#   image: node:14
+#   before_script:
+#     - apt-get update && apt-get install -y build-essential
+#     - npm install
+#   script:
+#     - npm install jest @babel/core @babel/preset-env babel-jest --save-dev
+#     - npm run test:coverage
+#   artifacts:
+#     paths:
+#       - coverage/
+#     expire_in: 1 week
 
 deploy_job:
   stage: deploy
@@ -36,7 +36,7 @@ deploy_job:
     - ssh-keyscan -v -H $SSH_HOST >> ~/.ssh/known_hosts
 
   script:
-    - ssh -i ~/.ssh/id_ed25519 -o HostKeyAlgorithms=ecdsa-sha2-nistp256,rsa-sha2-512,rsa-sha2-256 mateo_gil@$SSH_HOST "echo 'Conectado!'"
-    - ssh -i ~/.ssh/id_ed25519 mateo_gil@$SSH_HOST "mkdir -p $DEPLOY_DIR"  
-    - scp -i ~/.ssh/id_ed25519 -r . mateo_gil@$SSH_HOST:$DEPLOY_DIR  
-    - ssh -i ~/.ssh/id_ed25519 mateo_gil@$SSH_HOST "cd $DEPLOY_DIR && docker-compose up -d -rsa
+    - ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_ed25519 mateo_gil@$SSH_HOST "echo 'Conectado!'"
+    - ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_ed25519 mateo_gil@$SSH_HOST "mkdir -p $DEPLOY_DIR"  
+    - scp -o StrictHostKeyChecking=no -i ~/.ssh/id_ed25519 -r . mateo_gil@$SSH_HOST:$DEPLOY_DIR  
+    - ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_ed25519 mateo_gil@$SSH_HOST "cd $DEPLOY_DIR && sudo docker-compose up -d"
