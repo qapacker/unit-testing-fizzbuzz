@@ -25,21 +25,18 @@ deploy_job:
   stage: deploy
   image: ubuntu:latest  
   before_script:
-    - eval $(ssh-agent -s)
+    - eval $(ssh-agent -s)  
     - apt-get -yq update 
-    - apt-get -yqq install ssh iputils-ping
+    - apt-get -yqq install ssh iputils-ping  # Instalar ssh y ping
     - mkdir -p ~/.ssh
     - echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
     - chmod 600 ~/.ssh/id_rsa
-    - echo "SSH_HOST is $SSH_HOST"
-    - ping -c 4 $SSH_HOST
+    - echo "SSH_HOST is $SSH_HOST"  # Mostrar el valor de SSH_HOST
+    - ping -c 4 $SSH_HOST  # Verificar la conectividad
     - ssh-keyscan -v -H $SSH_HOST >> ~/.ssh/known_hosts
-    - ssh-add ~/.ssh/id_rsa  # Agregar la clave privada al agente SSH
 
   script:
-    - ssh -o StrictHostKeyChecking=no mateo_gil@$SSH_HOST "echo 'Conectado!'"
-    - ssh mateo_gil@$SSH_HOST "mkdir -p $DEPLOY_DIR"
-    - scp -r . mateo_gil@$SSH_HOST:$DEPLOY_DIR
-    - ssh mateo_gil@$SSH_HOST "cd $DEPLOY_DIR && sudo docker-compose up -d"
-
-
+    - ssh -i ~/.ssh/id_rsa -o HostKeyAlgorithms=ecdsa-sha2-nistp256,rsa-sha2-512,rsa-sha2-256 mateo_gil@$SSH_HOST "echo 'Conectado!'"
+    - ssh -i ~/.ssh/id_rsa mateo_gil@$SSH_HOST "mkdir -p $DEPLOY_DIR"  
+    - scp -i ~/.ssh/id_rsa -r . mateo_gil@$SSH_HOST:$DEPLOY_DIR  
+    - ssh -i ~/.ssh/id_rsa mateo_gil@$SSH_HOST "cd $DEPLOY_DIR && docker-compose up -d -rsa
