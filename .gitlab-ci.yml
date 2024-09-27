@@ -24,9 +24,6 @@ variables:
 deploy_job:
   stage: deploy
   image: ubuntu:latest  
-deploy_job:
-  stage: deploy
-  image: ubuntu:latest  
   before_script:
     - eval $(ssh-agent -s)  # Inicia el agente SSH
     - apt-get -yq update
@@ -36,11 +33,11 @@ deploy_job:
     - chmod 600 ~/.ssh/id_rsa
     - ssh-add ~/.ssh/id_rsa  # Agrega la clave al agente SSH
     - echo "SSH_HOST is $SSH_HOST"
-    - ping -c 4 $SSH_HOST
-    - ssh-keyscan -v -H $SSH_HOST >> ~/.ssh/known_hosts
+    - ping -c 4 $SSH_HOST  # Verifica la conectividad
+    - ssh-keyscan -v -H $SSH_HOST >> ~/.ssh/known_hosts  # Agrega el host a known_hosts
 
   script:
-    - ssh -o StrictHostKeyChecking=no mateo_gil@$SSH_HOST "echo 'Conectado!'"
-    - ssh mateo_gil@$SSH_HOST "mkdir -p $DEPLOY_DIR"
-    - scp -r . mateo_gil@$SSH_HOST:$DEPLOY_DIR
-    - ssh mateo_gil@$SSH_HOST "cd $DEPLOY_DIR && sudo docker-compose up -d"
+    - ssh -o StrictHostKeyChecking=no mateo_gil@$SSH_HOST "echo 'Conectado!'"  # Conexión SSH
+    - ssh mateo_gil@$SSH_HOST "mkdir -p $DEPLOY_DIR"  # Crear el directorio de despliegue
+    - scp -r . mateo_gil@$SSH_HOST:$DEPLOY_DIR  # Copiar archivos al servidor
+    - ssh mateo_gil@$SSH_HOST "cd $DEPLOY_DIR && sudo docker-compose up -d"  # Desplegar la aplicación
