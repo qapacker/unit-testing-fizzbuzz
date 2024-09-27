@@ -4,7 +4,7 @@ stages:
 
 variables:
   NODE_ENV: "test"
-  SSH_HOST: "192.168.125.168"
+  SSH_HOST: "35.222.13.139"
   DEPLOY_DIR: "/home/ubuntu/unit-testing-fizzbuzz"
 
 #test_job:

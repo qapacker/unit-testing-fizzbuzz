@@ -1,20 +1,24 @@
-# Usa la imagen base de Node.js
+# Usar una imagen oficial de Node como base (versión 18 en este caso)
 FROM node:18
 
-# Establece el directorio de trabajo
+# Establecer el directorio de trabajo dentro del contenedor
 WORKDIR /usr/src/app
 
-# Copia los archivos de configuración de npm
+# Copiar los archivos package.json y package-lock.json
 COPY package*.json ./
 
-# Actualiza los certificados
-RUN apt-get update && apt-get install -y ca-certificates
-RUN npm install jest @babel/core @babel/preset-env babel-jest --save-dev
+# Asegurarse de que las dependencias de desarrollo también se instalen
+ENV NODE_ENV=development
 
-# Instala las dependencias
-RUN npm ci
+# Instalar todas las dependencias (incluidas devDependencies)
+RUN npm install
 
-# Copia el resto del código de la aplicación
+# Copiar el resto del código de la aplicación al contenedor
 COPY . .
-# Comando para ejecutar las pruebas
+
+# Exponer el puerto en el que la aplicación se ejecutará (opcional)
+EXPOSE 3000
+
+# Comando para ejecutar los tests con cobertura
 CMD ["npm", "run", "test:coverage"]
+
