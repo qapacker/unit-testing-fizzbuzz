@@ -38,4 +38,3 @@ deploy_job:
     - ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_ed25519 mateo_gil@$SSH_HOST "echo 'Conectado!'"
     - ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_ed25519 mateo_gil@$SSH_HOST "mkdir -p $DEPLOY_DIR"  
     - scp -o StrictHostKeyChecking=no -i ~/.ssh/id_ed25519 -r . mateo_gil@$SSH_HOST:$DEPLOY_DIR  
-    - ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_ed25519 mateo_gil@$SSH_HOST "cd $DEPLOY_DIR && sudo docker-compose up -d"
