@@ -36,7 +36,7 @@ deploy_job:
     - ssh-keyscan -v -H $SSH_HOST >> ~/.ssh/known_hosts
 
   script:
-    - ssh -i ~/.ssh/id_ed25519 ubuntu@$SSH_HOST "echo 'Conectado!'"  
-    - ssh -i ~/.ssh/id_ed25519 ubuntu@$SSH_HOST "mkdir -p $DEPLOY_DIR"  
-    - scp -i ~/.ssh/id_ed25519 -r . ubuntu@$SSH_HOST:$DEPLOY_DIR  
-    - ssh -i ~/.ssh/id_ed25519 ubuntu@$SSH_HOST "cd $DEPLOY_DIR && docker-compose up -d --build"
+    - ssh -i ~/.ssh/id_ed25519 mateo_gil@$SSH_HOST "echo 'Conectado!'"  
+    - ssh -i ~/.ssh/id_ed25519 mateo_gil@$SSH_HOST "mkdir -p $DEPLOY_DIR"  
+    - scp -i ~/.ssh/id_ed25519 -r . mateo_gil@$SSH_HOST:$DEPLOY_DIR  
+    - ssh -i ~/.ssh/id_ed25519 mateo_gil@$SSH_HOST "cd $DEPLOY_DIR && docker-compose up -d --build"
