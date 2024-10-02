@@ -6,19 +6,19 @@ variables:
   NODE_ENV: "test"
   SSH_HOST: "192.168.114.207"
 
- test_job:
-   stage: test
-   image: node:14
-   before_script:
-     - apt-get update && apt-get install -y build-essential
-     - npm install
-   script:
-     - npm install jest @babel/core @babel/preset-env babel-jest --save-dev
+test_job:
+  stage: test
+  image: node:14
+  before_script:
+    - apt-get update && apt-get install -y build-essential
+    - npm install
+  script:
+    - npm install jest @babel/core @babel/preset-env babel-jest --save-dev
     - npm run test:coverage
-   artifacts:
-     paths:
-       - coverage/
-     expire_in: 1 week
+  artifacts:
+    paths:
+      - coverage/
+    expire_in: 1 week
 
 
 deploy_job:
