@@ -20,6 +20,7 @@ variables:
 #       - coverage/
 #     expire_in: 1 week
 
+
 deploy_job:
   stage: deploy
   image: ubuntu:latest  
