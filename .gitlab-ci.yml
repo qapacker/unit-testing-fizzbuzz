@@ -3,8 +3,7 @@ stages:
   - deploy
 
 variables:
-  NODE_ENV: "test"
-  SSH_HOST: "192.168.114.207"
+  SSH_HOST: "192.168.114.232"
 
 test_job:
   stage: test
