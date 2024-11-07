@@ -3,8 +3,8 @@ stages:
   - deploy
 
 variables:
-  SSH_HOST: "192.168.56.11"
-  DEPLOY_DIR: "/home/vagrant/unit-testing-fizzbuzz"
+  SSH_HOST: "192.168.114.227"
+  DEPLOY_DIR: "/home/ubuntu/unit-testing-fizzbuzz"
 
 test_job:
   stage: test
@@ -28,13 +28,16 @@ deploy_job:
     - apt-get -yq update
     - apt-get -yqq install ssh iputils-ping
     - mkdir -p ~/.ssh
-    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -   # Añadir clave privada en formato OPENSSH al agente SSH
-    - ssh-keyscan -H $SSH_HOST >> ~/.ssh/known_hosts    # Agregar host a known_hosts
+    - echo "$SSH_PRIVATE_KEY" > ~/.ssh/seg-keypair.pem
+    - chmod 600 ~/.ssh/seg-keypair.pem
+    - ssh-keyscan -H $SSH_HOST >> ~/.ssh/known_hosts
     - echo "SSH_HOST es $SSH_HOST"
     - ping -c 4 $SSH_HOST
 
   script:
-    - ssh -o StrictHostKeyChecking=no vagrant@$SSH_HOST "echo 'Conexión exitosa!'"
-    - ssh -o StrictHostKeyChecking=no vagrant@$SSH_HOST "mkdir -p $DEPLOY_DIR"
-    - scp -o StrictHostKeyChecking=no -r . vagrant@$SSH_HOST:$DEPLOY_DIR
+    - ssh -o StrictHostKeyChecking=no -i ~/.ssh/seg-keypair.pem ubuntu@$SSH_HOST "echo 'Conexión exitosa!'"
+    - ssh -o StrictHostKeyChecking=no -i ~/.ssh/seg-keypair.pem ubuntu@$SSH_HOST "mkdir -p $DEPLOY_DIR"
+    # Copiar solo archivos de la aplicación sin modificar otras configuraciones
+    - scp -o StrictHostKeyChecking=no -i ~/.ssh/seg-keypair.pem -r $(ls -I .ssh -I config ubuntu@$SSH_HOST:$DEPLOY_DIR
+
 
