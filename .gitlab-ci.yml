@@ -41,5 +41,4 @@ deploy_job:
     # Construir las imágenes y levantar los contenedores en un solo paso
     - echo "Construyendo e iniciando los contenedores Docker en el servidor remoto..."
     - ssh -o StrictHostKeyChecking=no -i ~/.ssh/deploy-key.pem ubuntu@$SSH_HOST "
-        cd $DEPLOY_DIR &&
-        docker-compose -f docker-compose.yml up --build -d"
+        cd $DEPLOY_DIR && docker compose up --build"
