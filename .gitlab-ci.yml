@@ -1,7 +1,7 @@
 stages:
   - test
   - deploy
-  
+
 test_job:
   stage: test
   image: node:14
@@ -21,14 +21,14 @@ deploy_job:
   image: ubuntu:latest
   before_script:
     - eval $(ssh-agent -s)
-    - apt-get -yq update
-    - apt-get -yqq install ssh iputils-ping rsync
+    - apt-get update && apt-get install -y ssh iputils-ping rsync
     - mkdir -p ~/.ssh
     - echo "$SSH_PRIVATE_KEY" > ~/.ssh/deploy-key.pem
     - chmod 600 ~/.ssh/deploy-key.pem
     - ssh-keyscan -H $SSH_HOST >> ~/.ssh/known_hosts
     - echo "Verificando conectividad con $SSH_HOST..."
     - ping -c 4 $SSH_HOST
+
   script:
     # Crear el directorio remoto si no existe
     - echo "Creando directorio de despliegue en el servidor remoto..."
@@ -36,15 +36,10 @@ deploy_job:
     
     # Sincronizar archivos al servidor remoto
     - echo "Sincronizando archivos con el servidor remoto..."
-    - rsync -av --exclude='.ssh/' --exclude='node_modules/' -e "ssh -i ~/.ssh/deploy-key.pem" ./ ubuntu@$SSH_HOST:$DEPLOY_DIR
-    
-    # Instalar dependencias y ejecutar la aplicación en el servidor remoto
-    - echo "Instalando dependencias y ejecutando la aplicación..."
+    - rsync -av --exclude='.ssh/' --exclude='node_modules/' --exclude='*.git*' -e "ssh -i ~/.ssh/deploy-key.pem" ./ ubuntu@$SSH_HOST:$DEPLOY_DIR
+
+    # Construir las imágenes y levantar los contenedores en un solo paso
+    - echo "Construyendo e iniciando los contenedores Docker en el servidor remoto..."
     - ssh -o StrictHostKeyChecking=no -i ~/.ssh/deploy-key.pem ubuntu@$SSH_HOST "
         cd $DEPLOY_DIR &&
-        npm ci &&
-        npm start
-      "
-
-
-
+        docker-compose -f docker-compose.yml up --build -d"
