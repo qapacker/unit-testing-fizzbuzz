@@ -1,11 +1,7 @@
 stages:
   - test
   - deploy
-
-variables:
-  SSH_HOST: "192.168.114.227"
-  DEPLOY_DIR: "/home/ubuntu"  # Ruta de despliegue en la máquina
-
+  
 test_job:
   stage: test
   image: node:14
@@ -26,17 +22,29 @@ deploy_job:
   before_script:
     - eval $(ssh-agent -s)
     - apt-get -yq update
-    - apt-get -yqq install ssh iputils-ping
+    - apt-get -yqq install ssh iputils-ping rsync
     - mkdir -p ~/.ssh
-    - echo "$SSH_PRIVATE_KEY" > ~/.ssh/seg-keypair.pem
-    - chmod 600 ~/.ssh/seg-keypair.pem
+    - echo "$SSH_PRIVATE_KEY" > ~/.ssh/deploy-key.pem
+    - chmod 600 ~/.ssh/deploy-key.pem
     - ssh-keyscan -H $SSH_HOST >> ~/.ssh/known_hosts
-    - echo "SSH_HOST es $SSH_HOST"
+    - echo "Verificando conectividad con $SSH_HOST..."
     - ping -c 4 $SSH_HOST
-
   script:
-    - ssh -o StrictHostKeyChecking=no -i ~/.ssh/seg-keypair.pem ubuntu@$SSH_HOST "echo 'Conexión exitosa!'"
-    # Copiar todo el directorio del proyecto a /home/ubuntu
-    - scp -o StrictHostKeyChecking=no -i ~/.ssh/seg-keypair.pem -r . ubuntu@$SSH_HOST:$DEPLOY_DIR
+    # Crear el directorio remoto si no existe
+    - echo "Creando directorio de despliegue en el servidor remoto..."
+    - ssh -o StrictHostKeyChecking=no -i ~/.ssh/deploy-key.pem ubuntu@$SSH_HOST "mkdir -p $DEPLOY_DIR"
+    
+    # Sincronizar archivos al servidor remoto
+    - echo "Sincronizando archivos con el servidor remoto..."
+    - rsync -av --exclude='.ssh/' --exclude='node_modules/' -e "ssh -i ~/.ssh/deploy-key.pem" ./ ubuntu@$SSH_HOST:$DEPLOY_DIR
+    
+    # Instalar dependencias y ejecutar la aplicación en el servidor remoto
+    - echo "Instalando dependencias y ejecutando la aplicación..."
+    - ssh -o StrictHostKeyChecking=no -i ~/.ssh/deploy-key.pem ubuntu@$SSH_HOST "
+        cd $DEPLOY_DIR &&
+        npm ci &&
+        npm start
+      "
+
 
 
